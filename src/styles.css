@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+.main-heading{
+    margin: 40px auto;
+}
+
+.sub-heading{
+    margin: 40px auto;
+}
+
+.search-result-table th{
+    background-color: #a7c942;
+}
+
+.search-result-table td, .search-result-table th{
+    border:1px solid #a7c942;
+}
+
+.star{
+    color: gold;
+    font-weight: bolder;
+    font-size:40px;
+    height: 20px;
+    display: inline-block;
+}
+
+.mouseCursor{
+    cursor: pointer;
+}

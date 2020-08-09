@@ -1,0 +1,39 @@
+
+.loading-backdrop {
+    opacity: .1;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+}
+.loading {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    overflow: hidden;
+    outline: 0;
+}
+
+.loading-content {
+    position: relative;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border:0;
+    border-radius: .3rem;
+    outline: 0;
+    color: green;
+}

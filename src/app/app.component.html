@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h1 class="main-heading">
+        <!-- Company Valuation Application -->
+        Company Valuation Application
+      </h1>
+
+      <h2 class="sub-heading">
+        Search Company
+      </h2>
+    </div>
+  </div>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" autocomplete="on">
+    <div class="row">
+      <div class="col-lg-3 col-md-4">
+        <div class="form-group">
+          <label for="searchTerm" class="col-form-label">
+            Type company name here
+          </label>
+          <br>
+          <input class="form-control" type="text" placeholder="Search Term" formControlName="searchTerm" required
+            id="searchTerm">
+          <div class="alert alert-warning" *ngIf="getformData.searchTerm.invalid && getformData.searchTerm.touched">
+            Search term is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        <div class="form-group">
+          <label for="exchange" class="col-form-label">
+            Exchange
+          </label>
+          <select class="form-control" formControlName="exchange" id="exchange" (change)="onSelectExchange()">
+            <option value="">Select</option>
+            <option [value]="exchangeData" *ngFor="let exchangeData of exchanges">{{exchangeData}}</option>
+          </select>
+
+          <div class="alert alert-warning" *ngIf="getformData.exchange.invalid && getformData.exchange.touched">
+            Exchange is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        <div class="form-group">
+          <label for="limit" class="col-form-label">
+            Limit
+          </label>
+          <br>
+          <select class="form-control" formControlName="limit" id="limit" (change)="onSelectLimit()"
+            [(ngModel)]="limitData[0]">
+            <option [value]="alimit" *ngFor="let alimit of limitData">{{alimit}}</option>
+          </select>
+
+          <div class="alert alert-warning" *ngIf="getformData.limit.invalid && getformData.limit.touched">
+            Limit is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4">
+        <button class="btn btn-primary" type="submit" [disabled]="!searchForm.valid">
+          <span>Search Company</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="sub-heading">
+        Search Results
+      </h2>
+      
+      <Table class="table table-striped search-result-table" *ngIf="searchResult.length != 0">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Stock Exchange</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of searchResult">
+            <td class="mouseCursor" (click)="onSymbolClick(result.symbol, result.currency)">{{result.name}}</td>
+            <td class="mouseCursor" (click)="onSymbolClick(result.symbol, result.currency)">{{result.symbol}}</td>
+            <td>{{result.currency}}</td>
+            <td>{{result.stockExchange}}</td>
+            <td>
+              <button class="btn btn-primary" (click)="downloadStatement(companyProfileResult[0].symbol)">
+                <span>Download Income Statement</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+
+      <div *ngIf="isSearchResultEmpty" class="alert alert-warning">No Result Found</div>
+    </div>
+    
+  </div>
+
+  <div class="row"  *ngIf="companyProfileResult.length > 0">
+    <div class="col-lg-12">
+      <h2 class="sub-heading">
+        Detail Page
+      </h2>
+    </div> 
+  </div>
+
+  <div class="row"  *ngIf="companyProfileResult.length > 0">
+    <div class="col-lg-2">
+      <img [src]="companyProfileResult[0].image" alt="">
+    </div> 
+    <div class="col-lg-6">
+      <p *ngIf="companyRatingResult.length > 0">
+        <!-- <span *ngFor="let star of arrayOne(companyRatingResult[0].ratingScore)">* {{}}</span> -->
+        <span class="star" *ngFor="let item of numSequence(companyRatingResult[0].ratingScore); let i = index;">*</span>
+        
+      </p>
+      <p><b>Name</b>: {{companyProfileResult[0].companyName}}</p>
+      <p><b>CEO</b>: {{companyProfileResult[0].ceo}}</p>
+      <p><b>Description</b>: {{companyProfileResult[0].description}}</p>
+    </div> 
+    <div class="col-lg-4">
+      <p><b>Price</b>: {{companyProfileResult[0].price}} ({{currency}})</p>
+      <p><b>Last Dividend</b>: {{companyProfileResult[0].lastDiv}}</p>
+      <p *ngIf="companyRatingResult.length > 0"><b>Recommendation</b>: {{companyRatingResult[0].ratingRecommendation}}</p>
+      <button class="btn btn-primary" (click)="downloadStatement(companyProfileResult[0].symbol)">
+        <span>Download Income Statement</span>
+      </button>
+    </div> 
+  </div>
+</div>
+<app-loading></app-loading>
